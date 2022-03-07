@@ -57,7 +57,7 @@ const tokenListPromise = (async () => {
 
             return tokens.push({
                 ...data,
-                chainId,
+                chainId: parseInt(chainId),
                 decimals: await contract.decimals(),
                 address,
             })
