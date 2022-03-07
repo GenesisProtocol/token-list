@@ -45,7 +45,7 @@ const tokenListPromise = (async () => {
     await Promise.all(entries.map(async ([name, data]) => {
         await Promise.all(chains.map(async chainId => {
             const [address, abi] = await Promise.all([
-                getAddress({ chain: chainId, name }),
+                getAddress({ chain: parseInt(chainId), name }),
                 getABI({ name }),
             ])
 
