@@ -34,7 +34,7 @@ const tokenMap = {
     'WrappedAvax': {
         'name': 'Wrapped Avalanche',
         'symbol': 'wAVAX',
-        'logoURI': BASE_URL + 'avax.png',
+        'logoURI': BASE_URL + 'avax.svg',
     },
 }
 
