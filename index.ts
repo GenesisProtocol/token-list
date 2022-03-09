@@ -3,7 +3,7 @@ import cors from 'cors'
 import tokenList from './src/token-list'
 
 const app: Application = express()
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 8080
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
