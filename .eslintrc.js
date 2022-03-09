@@ -1,0 +1,90 @@
+module.exports = {
+    root: true,
+    env: {
+        node: true,
+        es6: true,
+    },
+    parserOptions: {
+        parser: 'babel-eslint',
+        sourceType: 'module',
+    },
+    plugins: [
+        '@typescript-eslint',
+    ],
+    extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+    ],
+    rules: {
+        indent: ['error', 4],
+        quotes: ['error', 'single'],
+        semi: ['error', 'never'],
+        curly: ['warn', 'multi'],
+        'no-return-assign': 'off',
+        'arrow-parens': [2, 'as-needed', { requireForBlockBody: false }],
+        'template-curly-spacing': ['warn', 'always'],
+        'comma-dangle': ['error', 'always-multiline'],
+        'brace-style': ['warn', 'stroustrup'],
+        'array-bracket-spacing': ['warn', 'never'],
+        'object-curly-spacing': ['warn', 'always'],
+        'space-before-function-paren': ['warn', { anonymous: 'always', named: 'never', asyncArrow: 'always' }],
+        'padding-line-between-statements': [
+            'error',
+            {
+                blankLine: 'always',
+                prev: '*',
+                next: [
+                    'break',
+                    'case',
+                    'cjs-export',
+                    'cjs-import',
+                    'class',
+                    'continue',
+                    'default',
+                    'do',
+                    'if',
+                    'for',
+                    'function',
+                    'return',
+                    'switch',
+                    'throw',
+                    'try',
+                    'while',
+                ],
+            },
+            {
+                blankLine: 'always',
+                prev: [
+                    'const',
+                    'let',
+                    'var',
+                ],
+                next: '*',
+            },
+            {
+                blankLine: 'any',
+                prev: [
+                    'const',
+                    'let',
+                    'var',
+                ],
+                next: [
+                    'const',
+                    'let',
+                    'var',
+                ],
+            },
+            {
+                blankLine: 'always',
+                prev: 'directive',
+                next: '*',
+            },
+            {
+                blankLine: 'any',
+                prev: 'directive',
+                next: 'directive',
+            },
+        ],
+    },
+}

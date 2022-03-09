@@ -1,10 +1,24 @@
-import metadata from '../../assets/metadata.json'
+import { Request, Response } from 'express'
+import metadata from '../assets/metadata.json'
 import { getAddress, getAbi } from '@genesisprotocol/helpers'
 import { ethers } from 'ethers'
 
-const BASE_URL = 'https://tokens.usegenesis.com/'
+const BASE_URL = 'https://tokens.usegenesis.com/files/'
 
-const providers = {
+interface IToken {
+    name: string
+    symbol: string
+    logoURI: string
+    chainId: number
+    address: string
+    decimals: number
+}
+
+interface IProviderMap {
+    [chain: number]: ethers.providers.JsonRpcProvider
+}
+
+const providers: IProviderMap = {
     80001: new ethers.providers.JsonRpcProvider('https://polygon-mumbai.g.alchemy.com/v2/j1fnCMVcSRSqnQhQYs2lMVyEkV5H0snv'),
 }
 
@@ -40,20 +54,22 @@ const tokenMap = {
 
 const tokenListPromise = (async () => {
     const entries = Object.entries(tokenMap)
-    let tokens = []
+    const tokens: IToken[] = []
 
     await Promise.all(entries.map(async ([name, data]) => {
-        await Promise.all(chains.map(async chainId => {
+        await Promise.all(chains.map(async (chainId: string) => {
+            const chainIdInteger = parseInt(chainId)
+
             const contract = new ethers.Contract(
-                getAddress({ chain: chainId, name }),
+                getAddress({ chain: chainIdInteger, name }),
                 await getAbi({ name }),
-                providers[chainId],
+                providers[chainIdInteger],
             )
 
             return tokens.push({
                 ...data,
-                chainId: parseInt(chainId),
-                decimals: await contract.decimals(),
+                chainId: chainIdInteger,
+                decimals: parseInt(await contract.decimals()),
                 address: contract.address,
             })
         }))
@@ -65,7 +81,7 @@ const tokenListPromise = (async () => {
     }
 })()
 
-export default async function handler(req, res) {
+export default async function handler(req: Request, res: Response) {
     const tokenList = await tokenListPromise
 
     tokenList.timestamp = new Date().toISOString()
