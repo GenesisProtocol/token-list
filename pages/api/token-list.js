@@ -1,11 +1,11 @@
 import metadata from '../../assets/metadata.json'
-import { getAddress, getABI } from '@genesisprotocol/helpers'
+import { getAddress, getAbi } from '@genesisprotocol/helpers'
 import { ethers } from 'ethers'
 
 const BASE_URL = 'https://tokens.usegenesis.com/'
 
 const providers = {
-    80001: new ethers.providers.JsonRpcProvider('https://polygon-mumbai.g.alchemy.com/v2/j1fnCMVcSRSqnQhQYs2lMVyEkV5H0snv')
+    80001: new ethers.providers.JsonRpcProvider('https://polygon-mumbai.g.alchemy.com/v2/j1fnCMVcSRSqnQhQYs2lMVyEkV5H0snv'),
 }
 
 const chains = Object.keys(providers)
@@ -44,22 +44,17 @@ const tokenListPromise = (async () => {
 
     await Promise.all(entries.map(async ([name, data]) => {
         await Promise.all(chains.map(async chainId => {
-            const [address, abi] = await Promise.all([
-                getAddress({ chain: parseInt(chainId), name }),
-                getABI({ name }),
-            ])
-
             const contract = new ethers.Contract(
-                address,
-                abi,
-                providers['80001']
+                getAddress({ chain: chainId, name }),
+                await getAbi({ name }),
+                providers[chainId],
             )
 
             return tokens.push({
                 ...data,
                 chainId: parseInt(chainId),
                 decimals: await contract.decimals(),
-                address,
+                address: contract.address,
             })
         }))
     }))
