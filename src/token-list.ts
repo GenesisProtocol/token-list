@@ -20,6 +20,8 @@ interface IProviderMap {
 
 const providers: IProviderMap = {
     80001: new ethers.providers.JsonRpcProvider('https://polygon-mumbai.g.alchemy.com/v2/j1fnCMVcSRSqnQhQYs2lMVyEkV5H0snv'),
+    43113: new ethers.providers.JsonRpcProvider('https://speedy-nodes-nyc.moralis.io/06ed7fbdf4f5dbcd408458b2/avalanche/testnet'),
+    // 43114: new ethers.providers.JsonRpcProvider('https://speedy-nodes-nyc.moralis.io/06ed7fbdf4f5dbcd408458b2/avalanche/mainnet'),
 }
 
 const chains = Object.keys(providers)
