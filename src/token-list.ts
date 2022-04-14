@@ -12,6 +12,7 @@ interface IToken {
     chainId: number
     address: string
     decimals: number
+    chainSpecific?: boolean
 }
 
 interface IProviderMap {
@@ -72,6 +73,9 @@ const tokenListPromise = (async () => {
                 await getAbi({ name }),
                 providers[chainIdInteger],
             )
+
+            // @ts-expect-error We don't want to return the chainSpecific prop
+            delete data.chainSpecific
 
             return tokens.push({
                 ...data,
