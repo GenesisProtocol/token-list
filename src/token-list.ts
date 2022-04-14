@@ -31,26 +31,31 @@ const tokenMap = {
         'name': 'Genesis',
         'symbol': 'GEN',
         'logoURI': 'https://cdns-images.dzcdn.net/images/artist/c0ed2cf09c7bf072111d614fc4557b66/500x500.jpg',
+        'chainSpecific': false,
     },
     'Dai': {
         'name': 'Dai',
         'symbol': 'DAI',
         'logoURI': 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png',
+        'chainSpecific': true,
     },
     'WrappedBtc': {
         'name': 'Wrapped Bitcoin',
         'symbol': 'wBTC',
         'logoURI': BASE_URL + 'wbtc.png',
+        'chainSpecific': true,
     },
     'WrappedEth': {
         'name': 'Wrapped Ethereum',
         'symbol': 'wETH',
         'logoURI': 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png',
+        'chainSpecific': true,
     },
     'WrappedAvax': {
         'name': 'Wrapped Avalanche',
         'symbol': 'wAVAX',
         'logoURI': BASE_URL + 'avax.svg',
+        'chainSpecific': true,
     },
 }
 
@@ -63,7 +68,7 @@ const tokenListPromise = (async () => {
             const chainIdInteger = parseInt(chainId)
 
             const contract = new ethers.Contract(
-                getAddress({ chain: chainIdInteger, name }),
+                getAddress(data.chainSpecific ? { chain: chainIdInteger, name } : { name }),
                 await getAbi({ name }),
                 providers[chainIdInteger],
             )
