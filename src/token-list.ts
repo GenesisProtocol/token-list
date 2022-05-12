@@ -77,6 +77,12 @@ const tokenListPromise = (async () => {
             // @ts-expect-error We don't want to return the chainSpecific prop
             delete data.chainSpecific
 
+            if (
+                contract.address.toLocaleLowerCase() === '0x00000455b9fd8f5a44d44b32cbc2db50e5490d28' ||
+                (contract.address.toLocaleLowerCase() === '0x545c2fe17cefa437d606fe64bee2082ad13d4219' && chainId === '80001')
+            )
+                return
+
             return tokens.push({
                 ...data,
                 chainId: chainIdInteger,
