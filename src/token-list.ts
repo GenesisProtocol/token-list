@@ -68,6 +68,7 @@ const tokenListPromise = (async () => {
         await Promise.all(chains.map(async (chainId: string) => {
             const chainIdInteger = parseInt(chainId)
 
+
             const contract = new ethers.Contract(
                 getAddress(data.chainSpecific ? { chain: chainIdInteger, name } : { name }),
                 await getAbi({ name }),
@@ -83,10 +84,19 @@ const tokenListPromise = (async () => {
             )
                 return
 
+            let decimals
+
+            try {
+                decimals = parseInt(await contract.decimals())
+            }
+            catch (_) {
+                decimals = 18
+            }
+
             return tokens.push({
                 ...data,
                 chainId: chainIdInteger,
-                decimals: parseInt(await contract.decimals()),
+                decimals, 
                 address: contract.address,
             })
         }))
